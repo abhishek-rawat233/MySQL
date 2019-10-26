@@ -1,0 +1,42 @@
+mysql> SELECT location
+    -> FROM sandwiches
+    -> WHERE filling
+    -> IN (
+      -> SELECT filling
+      -> FROM tastes
+      -> WHERE name = 'jones'
+      -> );
++-----------+
+| location  |
++-----------+
+| O'Neill's |
+| Buttery   |
++-----------+
+
+
+mysql> SELECT location
+    -> FROM sandwiches
+    -> INNER JOIN tastes
+    -> ON sandwiches.filling = tastes.filling
+    -> WHERE tastes.name = 'jones';
++-----------+
+| location  |
++-----------+
+| O'Neill's |
+| Buttery   |
++-----------+
+
+
+mysql> SELECT location, COUNT(DISTINCT name)
+    -> FROM sandwiches
+    -> JOIN tastes
+    -> ON sandwiches.filling = tastes.filling
+    -> GROUP BY location;
++-----------+----------------------+
+| location  | COUNT(DISTINCT name) |
++-----------+----------------------+
+| Buttery   |                    3 |
+| Lincoln   |                    2 |
+| O'Neill's |                    3 |
+| Old Nag   |                    2 |
++-----------+----------------------+

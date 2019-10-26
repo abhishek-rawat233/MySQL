@@ -1,0 +1,53 @@
+mysql> SELECT title
+    -> FROM titles
+    -> WHERE publisher = 'Macmillan';
++----------+
+| title    |
++----------+
+| Susannah |
+| The Wife |
++----------+
+2 rows in set (0.10 sec)
+
+
+mysql> SELECT DISTINCT branch
+    -> FROM holdings
+    -> WHERE title
+    -> IN (
+    -> SELECT title
+    -> FROM titles
+    -> WHERE author = 'Ann Brown');
++--------+
+| branch |
++--------+
+| B1     |
+| B2     |
+| B3     |
++--------+
+3 rows in set (0.00 sec)
+
+
+mysql> SELECT DISTINCT branch
+    -> FROM holdings
+    -> JOIN titles
+    -> ON holdings.Title = titles.Title
+    -> WHERE titles.Author = 'Ann Brown';
++--------+
+| branch |
++--------+
+| B1     |
+| B2     |
+| B3     |
++--------+
+3 rows in set (0.11 sec)
+
+
+mysql> SELECT branch, COUNT(copies) FROM holdings GROUP BY branch;
++--------+---------------+
+| branch | COUNT(copies) |
++--------+---------------+
+| B1     |             3 |
+| B2     |             3 |
+| B3     |             4 |
++--------+---------------+
+3 rows in set (0.00 sec)

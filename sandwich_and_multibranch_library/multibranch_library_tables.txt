@@ -1,0 +1,83 @@
+#table branch creation
+mysql> CREATE TABLE branch(
+    -> BCode VARCHAR(2),
+    -> Librarian VARCHAR(30),
+    -> Address VARCHAR(30)
+    -> );
+Query OK, 0 rows affected (0.53 sec)
+
+#table branch insertion
+mysql> INSERT INTO branch VALUES('B1', 'John Smith', '2 Anglesea Rd');
+Query OK, 1 row affected (0.11 sec)
+
+mysql> INSERT INTO branch VALUES('B2', 'Mary Jones', '34 Pearse St');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO branch VALUES('B3', 'Francis Owens', 'Grange X');
+Query OK, 1 row affected (0.04 sec)
+
+
+#table titles creation
+mysql> CREATE TABLE titles(
+    -> Title VARCHAR(20),
+    -> Author VARCHAR(20),
+    -> Publisher VARCHAR(20)
+    -> );
+Query OK, 0 rows affected (0.24 sec)
+
+#table titles insertion
+mysql> INSERT INTO titles VALUES('Susannah', 'Ann Brown', 'Macmillan');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO titles VALUES('How to Fish', 'Amy Fly', 'Stop Press');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO titles VALUES('A History of Dublin', 'David Little', 'Wiley')
+;
+Query OK, 1 row affected (0.07 sec)
+
+mysql> INSERT INTO titles VALUES('Computers', 'Blaise Pascal', 'Applewoods');
+Query OK, 1 row affected (0.08 sec)
+
+mysql> INSERT INTO titles VALUES('The Wife', 'Ann Brown', 'Macmillan');
+Query OK, 1 row affected (0.04 sec)
+
+
+#table holdings creation
+mysql> CREATE TABLE holdings(
+    -> Branch VARCHAR(2),
+    -> Title VARCHAR(20),
+    -> copies INT
+    -> );
+Query OK, 0 rows affected (0.26 sec)
+
+#table holdings insertion
+mysql> INSERT INTO holdings VALUES('B1', 'Susannah', 3);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO holdings VALUES('B1', 'How to', 2);
+Query OK, 1 row affected (0.21 sec)
+
+mysql> INSERT INTO holdings VALUES('B1', 'A Hist', 1);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO holdings VALUES('B2', 'How to', 4);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO holdings VALUES('B2', 'Computers', 2);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO holdings VALUES('B2', 'The Wife', 3);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO holdings VALUES('B3', 'A hist..', 1);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO holdings VALUES('B3', 'Computers', 4);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO holdings VALUES('B3', 'Susannah', 3);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO holdings VALUES('B3', 'The Wife', 1);
+Query OK, 1 row affected (0.03 sec)

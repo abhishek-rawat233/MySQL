@@ -1,0 +1,94 @@
+#table tastes creation
+mysql> CREATE TABLE tastes (
+    -> Name VARCHAR(20),
+    -> Filling VARCHAR(20)
+    -> );
+Query OK, 0 rows affected (0.68 sec)
+
+
+#table tastes insertion
+mysql> INSERT INTO tastes VALUES('Brown', 'Turkey');
+Query OK, 1 row affected (1.22 sec)
+
+mysql> INSERT INTO tastes VALUES('Brown', 'Beef');
+Query OK, 1 row affected (0.11 sec)
+
+mysql> INSERT INTO tastes VALUES('Brown', 'Ham');
+Query OK, 1 row affected (0.12 sec)
+
+mysql> INSERT INTO tastes VALUES('Jones', 'Cheese');
+Query OK, 1 row affected (0.13 sec)
+
+mysql> INSERT INTO tastes VALUES('Green', 'Beef');
+Query OK, 1 row affected (0.13 sec)
+
+mysql> INSERT INTO tastes VALUES('Green', 'Turkey');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO tastes VALUES('Green', 'Cheese');
+Query OK, 1 row affected (0.69 sec)
+
+
+
+#table sandwiches creation
+mysql> CREATE TABLE sandwiches(
+    -> Location VARCHAR(20),
+    -> Bread VARCHAR(20),
+    -> Filling VARCHAR(20),
+    -> Price FLOAT(12, 2)
+    -> );
+Query OK, 0 rows affected (0.24 sec)
+
+#table sandwiches insertion
+mysql> INSERT INTO sandwiches VALUES('Lincoln', 'Rye', 'Ham', 1.25);
+Query OK, 1 row affected (0.12 sec)
+
+mysql> INSERT INTO sandwiches VALUES("O'Neill's", 'White', 'Cheese', 1.20);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO sandwiches VALUES("O'Neill's", 'Whole', 'Ham', 1.25);
+Query OK, 1 row affected (0.12 sec)
+
+mysql> INSERT INTO sandwiches VALUES("Old Nag", 'Rye', 'Beef', 1.35);
+Query OK, 1 row affected (0.12 sec)
+
+mysql> INSERT INTO sandwiches VALUES("Buttery", 'White', 'Cheese', 1.00);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO sandwiches VALUES("O'Neill's", 'White', 'Turkey', 1.35);
+Query OK, 1 row affected (0.13 sec)
+
+mysql> INSERT INTO sandwiches VALUES("Buttery", 'White', 'Ham', 1.10);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO sandwiches VALUES("Lincoln", 'Rye', 'Beef', 1.35);
+Query OK, 1 row affected (0.12 sec)
+
+mysql> INSERT INTO sandwiches VALUES("Lincoln", 'White', 'Ham', 1.30);
+Query OK, 1 row affected (0.12 sec)
+
+mysql> INSERT INTO sandwiches VALUES("Old Nag", 'Rye', 'Ham', 1.40);
+Query OK, 1 row affected (0.12 sec)
+
+
+
+#table locations creation
+mysql> CREATE TABLE locations(
+    -> Lname VARCHAR(20),
+    -> Phone INT(7),
+    -> Address VARCHAR(30)
+    -> );
+Query OK, 0 rows affected (0.32 sec)
+
+#table locations insertion
+mysql> INSERT INTO locations VALUES('Lincoln', 6834523, 'Lincoln Place');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO locations VALUES("O'Neill's", 6742134, 'Pearce St');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO locations VALUES("Old Nag", 7678132, 'Dame St');
+Query OK, 1 row affected (0.12 sec)
+
+mysql> INSERT INTO locations VALUES("Buttery", 7023421, 'College St');
+Query OK, 1 row affected (0.42 sec)
