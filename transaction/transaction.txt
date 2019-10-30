@@ -1,0 +1,39 @@
+mysql> CREATE DATABASE bank;
+Query OK, 1 row affected (0.26 sec)
+
+mysql> CREATE TABLE users(
+    -> id INT(2) NOT NULL AUTO_INCREMENT,
+    -> name VARCHAR(20) NOT NULL,
+    -> email VARCHAR(30) NOT NULL,
+    -> account_no INT(10) NOT NULL UNIQUE,
+    -> PRIMARY KEY (id)
+    -> );
+
+mysql> CREATE TABLE acccounts(
+    -> id INT(2) NOT NULL AUTO_INCREMENT,
+    -> account_no INT(10) NOT NULL UNIQUE,
+    -> balance INT(15) NOT NULL,
+    -> PRIMARY KEY (id)
+    -> );
+
+mysql> INSERT INTO users VALUE(NULL, 'user1', 'user1@xyz.com', 1000000000);
+Query OK, 1 row affected (0.62 sec)
+
+mysql> INSERT INTO users VALUE(NULL, 'user2', 'user2@xyz.com', 1000000001);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> INSERT INTO users VALUE(NULL, 'user3', 'user3@xyz.com', 1000000002);
+Query OK, 1 row affected (0.16 sec)
+
+mysql> INSERT INTO users VALUE(NULL, 'userA', 'userA@xyz.com', 1000000003);
+Query OK, 1 row affected (0.12 sec)
+
+mysql> INSERT INTO users VALUE(NULL, 'userB', 'userB@xyz.com', 1000000004);
+Query OK, 1 row affected (0.07 sec)
+
+
+mysql> INSERT INTO accounts VALUE(NULL, 1000000003, 20000);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> INSERT INTO accounts VALUE(NULL, 1000000004, 30000);
+Query OK, 1 row affected (0.16 sec)
