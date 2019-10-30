@@ -1,0 +1,75 @@
+mysql> CREATE TABLE Departments(
+    -> id INT(4) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    -> name VARCHAR(20) NOT NULL
+    -> );
+Query OK, 0 rows affected, 1 warning (0.60 sec)
+
+mysql> INSERT INTO Departments VALUE (NULL, 'Banking');
+Query OK, 1 row affected (0.14 sec)
+
+mysql> INSERT INTO Departments VALUE (NULL, 'Insurance');
+Query OK, 1 row affected (0.14 sec)
+
+mysql> INSERT INTO Departments VALUE (NULL, 'Services');
+Query OK, 1 row affected (0.09 sec)
+
+
+
+mysql> CREATE TABLE Employees(
+    -> id INT(4) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    -> name VARCHAR(30) NOT NULL,
+    -> salary INT(8) NOT NULL,
+    -> department_id INT(4) NOT NULL,
+    -> FOREIGN KEY(department_id) REFERENCES Departments(id)
+    -> );
+
+mysql> INSERT INTO Employees VALUE(0, 'Chris Gayle', 1000000, 1);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> INSERT INTO Employees VALUE(0, 'Michael Clarke', 800000, 2);
+Query OK, 1 row affected (0.10 sec)
+
+mysql> INSERT INTO Employees VALUE(0, 'Rahul Dravid', 700000, 1);
+Query OK, 1 row affected (0.15 sec)
+
+mysql> INSERT INTO Employees VALUE(0, 'Ricky Pointing', 600000, 2);
+Query OK, 1 row affected (1.21 sec)
+
+mysql> INSERT INTO Employees VALUE(0, 'Albie Morkel', 650000, 2);
+Query OK, 1 row affected (0.17 sec)
+
+mysql> INSERT INTO Employees VALUE(0, 'Wasim Akram', 750000, 3);
+Query OK, 1 row affected (0.08 sec)
+
+
+
+mysql> CREATE TABLE Commissions(
+    -> id INT(4) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    -> employee_id INT(4) NOT NULL,
+    -> commission_amount INT(6) NOT NULL,
+    -> FOREIGN KEY (employee_id) REFERENCES Employees(id)
+    -> );
+
+mysql> INSERT INTO Commissions VALUE(0, 1, 5000);
+Query OK, 1 row affected (1.91 sec)
+
+mysql> INSERT INTO Commissions VALUE(0, 2, 3000);
+Query OK, 1 row affected (0.20 sec)
+
+mysql> INSERT INTO Commissions VALUE(0, 3, 4000);
+Query OK, 1 row affected (0.15 sec)
+
+mysql> INSERT INTO Commissions VALUE(0, 1, 4000);
+Query OK, 1 row affected (0.96 sec)
+
+mysql> INSERT INTO Commissions VALUE(0, 2, 3000);
+Query OK, 1 row affected (1.25 sec)
+
+mysql> INSERT INTO Commissions VALUE(0, 4, 2000);
+Query OK, 1 row affected (0.47 sec)
+
+mysql> INSERT INTO Commissions VALUE(0, 5, 1000);
+Query OK, 1 row affected (0.34 sec)
+
+mysql> INSERT INTO Commissions VALUE(0, 6, 5000);
+Query OK, 1 row affected (0.11 sec)

@@ -1,0 +1,65 @@
+i. Find the employee who gets the highest total commission.
+mysql> Select e.id, e.name, sum(c.commission_amount) AS total_commission
+    -> FROM Employees e JOIN Commissions c
+    -> ON e.id = c.employee_id
+    -> GROUP BY e.id, e.name
+    -> ORDER BY total_commission DESC
+    -> LIMIT 1;
++----+-------------+------------------+
+| id | name        | total_commission |
++----+-------------+------------------+
+|  1 | Chris Gayle |             9000 |
++----+-------------+------------------+
+1 row in set (0.00 sec)
+
+
+
+ii. Find employee with 4th Highest salary from employee table.
+mysql> SELECT *
+    -> FROM Employees
+    -> ORDER BY salary DESC
+    -> LIMIT 3, 1;
++----+--------------+--------+---------------+
+| id | name         | salary | department_id |
++----+--------------+--------+---------------+
+|  3 | Rahul Dravid | 700000 |             1 |
++----+--------------+--------+---------------+
+1 row in set (0.00 sec)
+
+
+
+iii. Find department that is giving highest commission.
+mysql> SELECT d.id, d.name, sum(c.commission_amount)
+    -> FROM Departments d JOIN Employees e
+    -> ON d.id = e.department_id
+    -> JOIN Commissions c ON
+    -> e.id = c.employee_id
+    -> GROUP BY d.id, d.name
+    -> ORDER BY sum(c.commission_amount) DESC
+    -> LIMIT 1;
++----+---------+--------------------------+
+| id | name    | sum(c.commission_amount) |
++----+---------+--------------------------+
+|  1 | Banking |                    13000 |
++----+---------+--------------------------+
+1 row in set (0.00 sec)
+
+
+
+iv. Find employees getting commission more than 3000
+    Display Output in following pattern:
+      Chris Gayle, Rahul Dravid  4000
+mysql> SELECT GROUP_CONCAT(e.name separator ' ')
+    -> AS name, c.commission_amount
+    -> FROM Employees e
+    -> JOIN Commissions c
+    -> ON e.id = c.employee_id
+    -> GROUP BY c.commission_amount
+    -> HAVING c.commission_amount > 3000;
++--------------------------+-------------------+
+| name                     | commission_amount |
++--------------------------+-------------------+
+| Chris Gayle Rahul Dravid |              4000 |
+| Wasim Akram Chris Gayle  |              5000 |
++--------------------------+-------------------+
+2 rows in set (0.00 sec)
