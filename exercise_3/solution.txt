@@ -84,6 +84,7 @@ Query OK, 0 rows affected (0.70 sec)
 
 
 --2--
+#without variable
 mysql> SELECT id, author
     -> FROM articles
     -> WHERE author = 'user3';
@@ -94,13 +95,34 @@ mysql> SELECT id, author
 +----+--------+
 1 row in set (0.00 sec)
 
+#with variable
+mysql>  SELECT id, @author:=author
+    -> FROM articles
+    -> WHERE author = 'user3';
++----+-----------------+
+| id | @author:=author |
++----+-----------------+
+|  3 | user3           |
++----+-----------------+
+1 row in set, 1 warning (0.00 sec)
+
+
+
 --3--
+#with subquery
 mysql> SELECT article_id, comment
     -> FROM comments
     -> WHERE article_id = (SELECT id FROM articles WHERE author = 'user3');
 Empty set (0.00 sec)
 
+#without subquery
+mysql> SELECT article_id, comment FROM comments JOIN articles ON article_id = articles.id WHERE author = 'user3';
+Empty set (0.00 sec)
+
+
+
 --4--
+
 mysql> SELECT * FROM articles WHERE id NOT IN (SELECT article_id from comments);
 +----+----------+--------+-----------+
 | id | category | author | user_type |
@@ -108,6 +130,15 @@ mysql> SELECT * FROM articles WHERE id NOT IN (SELECT article_id from comments);
 |  3 | fiction  | user3  | normal    |
 +----+----------+--------+-----------+
 1 row in set (0.00 sec)
+
+mysql> select * from articles LEFT JOIN comments ON articles.id = comments.article_id where article_id IS NULL;
++----+----------+--------+-----------+------+------------+-----------+---------+
+| id | category | author | user_type | id   | article_id | commenter | comment |
++----+----------+--------+-----------+------+------------+-----------+---------+
+|  3 | fiction  | user3  | normal    | NULL |       NULL | NULL      | NULL    |
++----+----------+--------+-----------+------+------------+-----------+---------+
+1 row in set (0.00 sec)
+
 
 
 --5--
