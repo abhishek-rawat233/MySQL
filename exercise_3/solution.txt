@@ -1,0 +1,111 @@
+--1--
+
+#TABLE CREATION#
+mysql> CREATE TABLE articles(
+    -> id INT(3) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    -> category VARCHAR(20) NOT NULL,
+    -> author VARCHAR(20) NOT NULL
+    -> );
+Query OK, 0 rows affected, 1 warning (0.63 sec)
+
+mysql> CREATE TABLE comments(
+    -> id INT(3) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    -> article_id INT(3) NOT NULL,
+    -> commenter VARCHAR(20) NOT NULL,
+    -> comment VARCHAR(20)
+    -> );
+Query OK, 0 rows affected, 2 warnings (0.59 sec)
+
+mysql> CREATE TABLE to_be_deleted(
+    -> id INT(3) NOT NULL);
+Query OK, 0 rows affected, 1 warning (0.89 sec)
+
+#insertion#
+mysql> INSERT INTO articles VALUE(NULL, 'fiction', 'user1', 'Admin');
+Query OK, 1 row affected (0.40 sec)
+
+mysql> INSERT INTO articles VALUE(NULL, 'non-fiction', 'user2', 'normal');
+Query OK, 1 row affected (0.19 sec)
+
+mysql> INSERT INTO articles VALUE(NULL, 'fiction', 'user3', 'normal');
+Query OK, 1 row affected (0.16 sec)
+
+mysql> select * from articles;
++----+-------------+--------+-----------+
+| id | category    | author | user_type |
++----+-------------+--------+-----------+
+|  1 | fiction     | user1  | Admin     |
+|  2 | non-fiction | user2  | normal    |
+|  3 | fiction     | user3  | normal    |
++----+-------------+--------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> INSERT INTO comments VALUE(NULL, 0, 'user2', 'good');
+Query OK, 1 row affected (0.18 sec)
+
+mysql> INSERT INTO comments VALUE(NULL, 1, 'user3', 'ok');
+Query OK, 1 row affected (0.16 sec)
+
+mysql> INSERT INTO comments VALUE(NULL, 0, 'user3', 'bad');
+Query OK, 1 row affected (0.07 sec)
+
+
+#UPDATE#
+--before--
+mysql> SELECT * FROM comments;
++----+------------+-----------+---------+
+| id | article_id | commenter | comment |
++----+------------+-----------+---------+
+|  1 |          0 | user2     | good    |
+|  2 |          1 | user3     | ok      |
+|  3 |          0 | user3     | bad     |
++----+------------+-----------+---------+
+3 rows in set (0.00 sec)
+--after--
+mysql> UPDATE comments
+    -> SET article_id = article_id + 1;
+Query OK, 3 rows affected (0.08 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> SELECT * FROM comments;
++----+------------+-----------+---------+
+| id | article_id | commenter | comment |
++----+------------+-----------+---------+
+|  1 |          1 | user2     | good    |
+|  2 |          2 | user3     | ok      |
+|  3 |          1 | user3     | bad     |
++----+------------+-----------+---------+
+3 rows in set (0.00 sec)
+
+
+#DELETE#
+mysql> DROP TABLE to_be_deleted;
+Query OK, 0 rows affected (0.70 sec)
+
+
+
+mysql> SELECT id, author
+    -> FROM articles
+    -> WHERE author = 'user3';
++----+--------+
+| id | author |
++----+--------+
+|  3 | user3  |
++----+--------+
+1 row in set (0.00 sec)
+
+
+mysql> SELECT article_id, comment
+    -> FROM comments
+    -> WHERE article_id = (SELECT id FROM articles WHERE author = 'user3');
+Empty set (0.00 sec)
+
+--4--
+mysql> SELECT article_id, COUNT(article_id) FROM comments GROUP BY article_id
+ORDER BY COUNT(article_id) DESC LIMIT 1;
++------------+-------------------+
+| article_id | COUNT(article_id) |
++------------+-------------------+
+|          1 |                 2 |
++------------+-------------------+
+1 row in set (0.00 sec)
