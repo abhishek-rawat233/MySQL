@@ -83,7 +83,7 @@ mysql> DROP TABLE to_be_deleted;
 Query OK, 0 rows affected (0.70 sec)
 
 
-
+--2--
 mysql> SELECT id, author
     -> FROM articles
     -> WHERE author = 'user3';
@@ -94,13 +94,23 @@ mysql> SELECT id, author
 +----+--------+
 1 row in set (0.00 sec)
 
-
+--3--
 mysql> SELECT article_id, comment
     -> FROM comments
     -> WHERE article_id = (SELECT id FROM articles WHERE author = 'user3');
 Empty set (0.00 sec)
 
 --4--
+mysql> SELECT * FROM articles WHERE id NOT IN (SELECT article_id from comments);
++----+----------+--------+-----------+
+| id | category | author | user_type |
++----+----------+--------+-----------+
+|  3 | fiction  | user3  | normal    |
++----+----------+--------+-----------+
+1 row in set (0.00 sec)
+
+
+--5--
 mysql> SELECT article_id, COUNT(article_id) FROM comments GROUP BY article_id
 ORDER BY COUNT(article_id) DESC LIMIT 1;
 +------------+-------------------+
@@ -109,3 +119,13 @@ ORDER BY COUNT(article_id) DESC LIMIT 1;
 |          1 |                 2 |
 +------------+-------------------+
 1 row in set (0.00 sec)
+
+--6--
+mysql> SELECT articles.id FROM articles LEFT JOIN comments ON articles.id = comments.article_id group by articles.id HAVING COUNT(DISTINCT commenter) = COUNT(commenter);
++----+
+| id |
++----+
+|  2 |
+|  3 |
++----+
+2 rows in set (0.00 sec)
