@@ -1,0 +1,66 @@
+--1--
+mysql> SELECT DISTINCT city
+  FROM subscribers;
++-----------+
+| city      |
++-----------+
+|  Lucknow  |
+|  Chennai  |
+|  Kolkatta |
+|  Delhi    |
+|  Mumbai   |
++-----------+
+5 rows in set (0.00 sec)
+
+
+--2--
+mysql> SELECT city, COUNT(city) AS total_city
+  FROM subscribers
+  GROUP BY city;
++-----------+------------+
+| city      | total_city |
++-----------+------------+
+|  Lucknow  |         39 |
+|  Chennai  |         42 |
+|  Kolkatta |         38 |
+|  Delhi    |         40 |
+|  Mumbai   |         41 |
++-----------+------------+
+5 rows in set (0.00 sec)
+
+--3--
+mysql> SELECT city, COUNT(city) AS total_city
+  FROM subscribers
+  GROUP BY city
+  ORDER BY total_city DESC
+  LIMIT 1;
++----------+------------+
+| city     | total_city |
++----------+------------+
+|  Chennai |         42 |
++----------+------------+
+1 row in set (0.00 sec)
+
+--4--
+mysql> select (SUBSTRING_INDEX(SUBSTR(email, INSTR(email, '@') + 1), '.',1)) as d, count(*) as c from subscribers group by d;
++---------+----+
+| d       | c  |
++---------+----+
+| hotmail | 49 |
+| yahoo   | 51 |
+| me      | 51 |
+| gmail   | 49 |
++---------+----+
+4 rows in set (0.00 sec)
+
+
+--5--
+mysql> select (SUBSTRING_INDEX(SUBSTR(email, INSTR(email, '@') + 1), '.',1)) as domain, count
+(*) as domain_users_count from subscribers group by domain ORDER BY domain_users_count DESC L
+IMIT 1;
++--------+--------------------+
+| domain | domain_users_count |
++--------+--------------------+
+| yahoo  |                 51 |
++--------+--------------------+
+1 row in set (0.00 sec)
