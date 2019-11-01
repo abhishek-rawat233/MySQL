@@ -1,0 +1,91 @@
+mysql> SELECT e.id,e.name, COUNT(m.emp_id)
+    -> AS total_allotment
+    -> FROM device_records AS m
+    -> JOIN employees AS e
+    -> ON e.id = m.emp_id
+    -> GROUP BY e.id, e.name
+    -> ORDER BY total_allotment DESC
+    -> LIMIT 1;
++----+------+-----------------+
+| id | name | total_allotment |
++----+------+-----------------+
+|  2 | Bob  |               3 |
++----+------+-----------------+
+1 row in set (0.00 sec)
+
+
+mysql> SELECT e.id,e.name, COUNT(m.emp_id)
+    -> AS total_allotment
+    -> FROM device_records AS m
+    -> JOIN employees AS e ON e.id = m.emp_id
+    -> WHERE assigned_to = '2019-11-01'
+    -> GROUP BY e.id, e.name
+    -> ORDER BY total_allotment DESC
+    -> LIMIT 1;
++----+------+-----------------+
+| id | name | total_allotment |
++----+------+-----------------+
+|  2 | Bob  |               2 |
++----+------+-----------------+
+1 row in set (0.00 sec)
+
+
+mysql> SELECT e.name, r.assigned_from, r.assigned_to FROM employees AS e JOIN device_records AS r ON e.id = r.emp_id WHERE r.device_id = (SELECT id FROM assets WHERE item = 'Laptop A');
++-------+---------------+-------------+
+| name  | assigned_from | assigned_to |
++-------+---------------+-------------+
+| Alice | 2011-01-01    | 2011-12-31  |
+| Bob   | 2012-01-01    | 2019-11-01  |
++-------+---------------+-------------+
+2 rows in set (0.00 sec)
+
+
+mysql> SELECT * FROM assets WHERE status = 'free';
++----+-----------+------+-------+-------+-------+----------+----------------+--------+--------------+------------------+
+| id | item      | year | model | make  | price | warranty | allotment_type | status | location     | date_of_purchase |
++----+-----------+------+-------+-------+-------+----------+----------------+--------+--------------+------------------+
+|  3 | Laptop B  | 2011 | bcd   | HP    | 30000 |        1 | individual     | free   | employee     | 2011-01-01       |
+|  4 | Laptop N1 | 2011 | cde   | Dell  | 40000 |        1 | individual     | free   | employee     | 2011-01-01       |
+|  5 | Laptop N2 | 2011 | cde   | Dell  | 40000 |        1 | individual     | free   | employee     | 2011-01-01       |
+| 10 | Printer A | 2011 | xyz   | canon | 90000 |        1 | public         | free   | meeting room | 2011-08-15       |
++----+-----------+------+-------+-------+-------+----------+----------------+--------+--------------+------------------+
+4 rows in set (0.00 sec)
+
+
+
+mysql> SELECT a.id, a.item FROM assets AS a JOIN device_records AS r ON a.id = r.device_id JOIN employees AS e ON r.emp_id = e.id WHERE e.name = 'Bob' AND r.assigned_to = '2019-11-1';
++----+----------+
+| id | item     |
++----+----------+
+|  7 | iPhone B |
+|  2 | Laptop A |
++----+----------+
+2 rows in set (0.00 sec)
+
+
+mysql> SELECT * FROM assets WHERE CURDATE() > date_of_purchase + warranty;
++----+-------------+------+-------+--------+-------+----------+----------------+----------+--------------+------------------+
+| id | item        | year | model | make   | price | warranty | allotment_type | status   | location     | date_of_purchase |
++----+-------------+------+-------+--------+-------+----------+----------------+----------+--------------+------------------+
+|  2 | Laptop A    | 2011 | abc   | lenovo | 20000 |        1 | individual     | assigned | employee     | 2011-01-01       |
+|  3 | Laptop B    | 2011 | bcd   | HP     | 30000 |        1 | individual     | free     | employee     | 2011-01-01       |
+|  4 | Laptop N1   | 2011 | cde   | Dell   | 40000 |        1 | individual     | free     | employee     | 2011-01-01       |
+|  5 | Laptop N2   | 2011 | cde   | Dell   | 40000 |        1 | individual     | free     | employee     | 2011-01-01       |
+|  6 | iPhone A    | 2011 | cde   | apple  | 60000 |        1 | individual     | assigned | employee     | 2011-04-01       |
+|  7 | iPhone B    | 2011 | cde   | apple  | 60000 |        1 | individual     | assigned | employee     | 2011-01-01       |
+|  8 | Projector A | 2011 | xyz   | canon  | 80000 |        1 | public         | assigned | meeting room | 2011-08-15       |
+|  9 | Printer B   | 2011 | xyz   | canon  | 90000 |        1 | public         | assigned | meeting room | 2011-09-10       |
+| 10 | Printer A   | 2011 | xyz   | canon  | 90000 |        1 | public         | free     | meeting room | 2011-08-15       |
++----+-------------+------+-------+--------+-------+----------+----------------+----------+--------------+------------------+
+9 rows in set (0.00 sec)
+
+
+mysql> SELECT * FROM employees WHERE id NOT IN (SELECT distinct emp_id FROM device_records WHERE assigned_to = '2019-11-1' AND emp_id IS NOT NULL);
++----+-------+
+| id | name  |
++----+-------+
+|  3 | Chris |
+|  4 | Duke  |
+|  5 | Emily |
++----+-------+
+3 rows in set (0.00 sec)

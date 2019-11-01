@@ -1,0 +1,79 @@
+mysql> CREATE TABLE employees(
+    -> id INT(0) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    -> name VARCHAR(00) NOT NULL);
+Query OK, 0 rows affected, 1 warning (0.90 sec)
+
+mysql> CREATE TABLE assets(
+    -> id INT(0) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    -> year YEAR(0) NOT NULL,
+    -> model VARCHAR(00) NOT NULL,
+    -> make VARCHAR(00) NOT NULL,
+    -> price INT(0) NOT NULL,
+    -> warranty INT(0) NOT NULL,
+    -> can_be_allotted ENUM('yes', 'no'),
+    -> status ENUM('assigned', 'free')
+    -> );
+
+mysql> CREATE TABLE device_record(
+    -> id INT(0) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    -> emp_id INT(0) NOT NULL,
+    -> device_id INT(0) NOT NULL,
+    -> previous_holder_id INT(0) NOT NULL,
+    -> assigned_from DATE NOT NULL,
+    -> assigned_to DATE NOT NULL,
+    -> FOREIGN KEY (device_id) REFERENCES assets(id),
+    -> FOREIGN KEY (emp_id) REFERENCES employees(id)
+    -> );
+Query OK, 0 rows affected, 4 warnings (0.46 sec)
+
+mysql> CREATE TABLE repair(
+    -> id INT(0) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    -> cost INT(0) NOT NULL,
+    -> warranty DATE,
+    -> nature_of_damage ENUM('major','minor')
+    -> device_id INT(0) NOT NULL,
+    -> FOREIGN KEY (device_id) REFERENCES assets(id),
+    -> );
+
+--employee insertion--
+mysql> INSERT INTO employees VALUE(0,'Alice');
+Query OK, 1 row affected (0.95 sec)
+
+mysql> INSERT INTO employees VALUE(0,'Bob');
+Query OK, 1 row affected (0.09 sec)
+
+mysql> INSERT INTO employees VALUE(0,'Chris');
+Query OK, 1 row affected (0.07 sec)
+
+mysql> INSERT INTO employees VALUE(0,'Duke');
+Query OK, 1 row affected (0.20 sec)
+
+mysql> INSERT INTO employees VALUE(0,'Emily');
+Query OK, 1 row affected (0.20 sec)
+
+
+--assets insertion--
+mysql> INSERT INTO assets(id, item, year, model, make, price, warrant, allotment_type, status, location, date_of_purchase)
+ VALUES(0, 'Laptop A', 2011, 'abc', 'lenovo', 20000, 1, individual', 'assigned', 'employee, '2011-01-01'),
+ (0, 'Laptop B', 2011, 'bcd', 'HP', 30000', 1, individual', 'free', 'employee, '2011-01-01'),
+ (0, 'Laptop N1', 2011, 'cde', 'Dell', 40000, 1, individual', 'free', 'employee, '2011-01-01'),
+ (0, 'Laptop N2', 2011, 'cde', 'Dell', 40000, 1, individual', 'free', 'employee, '2011-01-01'),
+ (0, 'iPhone A', 2011, 'cde', 'apple', 60000, 1, individual', 'assigned', 'employee, '2011-04-01'),
+ (0, 'iPhone B', 2011, 'cde', 'apple', 60000, 1, individual', 'assigned', 'employee, '2011-01-01'),
+ (0, 'Projector A', 2011, 'xyz', 'canon', 80000, 1, public', 'assigned', 'meeting room', '2011-08-15'),
+ (0, 'Printer B', 2011, 'xyz', 'canon', 90000, 1, public', 'assigned', 'meeting room', '2011-09-10'),
+ (0, 'Printer A', 2011, 'xyz', 'canon', 90000, 1, public', 'free', 'meeting room', '2011-08-15');
+
+ --device_records insertion--
+ mysql> INSERT INTO device_records(id, emp_id, device_id, assigned_from, assigned_to)
+   VALUES(0, 1  2, '2011-01-01', '2011-12-31'),
+    (0, 2  3, '2011-01-01', '2011-12-31'),
+    (0, NULL  4, NULL, NULL),
+    (0, NULL  5, NULL, NULL),
+    (0, 1  6, '2011-04-01', '2019-11-01'),
+    (0, 2  7, '2011-01-01', '2019-11-01'),
+    (0, NULL  8, '2011-08-15', '2019-11-01'),
+    (0, NULL 10, '2011-08-15', '2019-11-01'),
+    (0, NULL  9, '2011-09-10', '2019-11-01'),
+    (0, 2  2, '2012-01-01', '2019-11-01'),
+    (0, NULL  3, NULL, NULL);
