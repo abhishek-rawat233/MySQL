@@ -62,20 +62,19 @@ mysql> SELECT (SUBSTRING_INDEX(SUBSTR(email, INSTR(email, '@') + 1), '.',1)) AS 
 
 
 --5--
-mysql> select (SUBSTRING_INDEX(SUBSTR(email, INSTR(email, '@') + 1), '.',1) AS domain,
-  count(*) AS domain_count
+mysql> SELECT (SUBSTRING_INDEX(SUBSTR(email, INSTR(email, '@') + 1), '.',1)) AS domain, COUNT(*) AS subscribers_count
   FROM subscribers
   GROUP BY domain
-  HAVING total =
-  (SELECT COUNT(*)
-  FROM subscribers
-  GROUP BY (SUBSTRING_INDEX(SUBSTR(email, INSTR(email, '@') + 1), '.',1))
-  ORDER BY COUNT(*) DESC
-  LIMIT 1);
-+--------+--------------+
-| domain | domain_count |
-+--------+--------------+
-| yahoo  |           51 |
-| me     |           51 |
-+--------+--------------+
-2 rows in set (0.00 sec)
+  HAVING subscribers_count =
+    (SELECT COUNT(*)
+    FROM subscribers
+    GROUP BY (SUBSTRING_INDEX(SUBSTR(email, INSTR(email, '@') + 1), '.',1))
+    ORDER BY COUNT(*) DESC
+    LIMIT 1);
++--------+-------------------+
+| domain | subscribers_count |
++--------+-------------------+
+| yahoo  |                51 |
+| me     |                51 |
++--------+-------------------+
+2 rows in set (0.01 sec)
