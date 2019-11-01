@@ -6,15 +6,14 @@ mysql> UPDATE accounts SET balance = balance - 500  WHERE account_no = (SELECT a
 Query OK, 1 row affected (0.19 sec)
 Rows matched: 1  Changed: 1  Warnings: 0
 
-mysql> BEGIN;
+mysql> START TRANSACTION;
 Query OK, 0 rows affected (0.00 sec)
 
 mysql> UPDATE accounts SET balance = balance - 200  WHERE account_no = (SELECT account_no FROM users WHERE name = 'userA');
 Query OK, 1 row affected (0.00 sec)
 Rows matched: 1  Changed: 1  Warnings: 0
 
-mysql> UPDATE accounts SET balance = balance + 200  WHERE account_no = (SELECT
- account_no FROM users WHERE name = 'userB');
+mysql> UPDATE accounts SET balance = balance + 200  WHERE account_no = (SELECT account_no FROM users WHERE name = 'userB');
 Query OK, 1 row affected (0.01 sec)
 Rows matched: 1  Changed: 1  Warnings: 0
 
