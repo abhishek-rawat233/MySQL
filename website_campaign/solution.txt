@@ -14,53 +14,68 @@ mysql> SELECT DISTINCT city
 
 
 --2--
-mysql> SELECT city, COUNT(city) AS total_city
+mysql> SELECT city, COUNT(city) AS total_subscribers
   FROM subscribers
   GROUP BY city;
-+-----------+------------+
-| city      | total_city |
-+-----------+------------+
-|  Lucknow  |         39 |
-|  Chennai  |         42 |
-|  Kolkatta |         38 |
-|  Delhi    |         40 |
-|  Mumbai   |         41 |
-+-----------+------------+
++-----------+-------------------+
+| city      | total_subscribers |
++-----------+-------------------+
+|  Lucknow  |                39 |
+|  Chennai  |                42 |
+|  Kolkatta |                38 |
+|  Delhi    |                40 |
+|  Mumbai   |                41 |
++-----------+-------------------+
 5 rows in set (0.00 sec)
 
 --3--
-mysql> SELECT city, COUNT(city) AS total_city
+mmysql> SELECT city, count(city) AS total_subscribers
   FROM subscribers
   GROUP BY city
-  ORDER BY total_city DESC
-  LIMIT 1;
-+----------+------------+
-| city     | total_city |
-+----------+------------+
-|  Chennai |         42 |
-+----------+------------+
-1 row in set (0.00 sec)
+  HAVING total_subscribers =
+    (SELECT count(city) AS total
+    FROM subscribers
+    GROUP BY city
+    ORDER BY total DESC
+    LIMIT 1);
++----------+--------------------+
+| city     | total_subscribers  |
++----------+--------------------+
+|  Chennai |                 42 |
++----------+--------------------+
+1 row in set (0.01 sec)
+
 
 --4--
-mysql> select (SUBSTRING_INDEX(SUBSTR(email, INSTR(email, '@') + 1), '.',1)) as d, count(*) as c from subscribers group by d;
-+---------+----+
-| d       | c  |
-+---------+----+
-| hotmail | 49 |
-| yahoo   | 51 |
-| me      | 51 |
-| gmail   | 49 |
-+---------+----+
-4 rows in set (0.00 sec)
+mysql> SELECT (SUBSTRING_INDEX(SUBSTR(email, INSTR(email, '@') + 1), '.',1)) AS domain, COUNT(*) AS domain_count
+  FROM subscribers
+  GROUP BY domain;
+  +---------+--------------+
+  | domain  | domain_count |
+  +---------+--------------+
+  | hotmail |           49 |
+  | yahoo   |           51 |
+  | me      |           51 |
+  | gmail   |           49 |
+  +---------+--------------+
+  4 rows in set (0.00 sec)
 
 
 --5--
-mysql> select (SUBSTRING_INDEX(SUBSTR(email, INSTR(email, '@') + 1), '.',1)) as domain, count
-(*) as domain_users_count from subscribers group by domain ORDER BY domain_users_count DESC L
-IMIT 1;
-+--------+--------------------+
-| domain | domain_users_count |
-+--------+--------------------+
-| yahoo  |                 51 |
-+--------+--------------------+
-1 row in set (0.00 sec)
+mysql> select (SUBSTRING_INDEX(SUBSTR(email, INSTR(email, '@') + 1), '.',1) AS domain,
+  count(*) AS domain_count
+  FROM subscribers
+  GROUP BY domain
+  HAVING total =
+  (SELECT COUNT(*)
+  FROM subscribers
+  GROUP BY (SUBSTRING_INDEX(SUBSTR(email, INSTR(email, '@') + 1), '.',1))
+  ORDER BY COUNT(*) DESC
+  LIMIT 1);
++--------+--------------+
+| domain | domain_count |
++--------+--------------+
+| yahoo  |           51 |
+| me     |           51 |
++--------+--------------+
+2 rows in set (0.00 sec)
