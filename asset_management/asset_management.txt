@@ -1,10 +1,10 @@
 mysql> CREATE TABLE employees(
-    -> id INT(0) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    -> id INT(0) AUTO_INCREMENT PRIMARY KEY,
     -> name VARCHAR(00) NOT NULL);
 Query OK, 0 rows affected, 1 warning (0.90 sec)
 
 mysql> CREATE TABLE assets(
-    -> id INT(0) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    -> id INT(0) AUTO_INCREMENT PRIMARY KEY,
     -> year YEAR(0) NOT NULL,
     -> model VARCHAR(00) NOT NULL,
     -> make VARCHAR(00) NOT NULL,
@@ -15,7 +15,7 @@ mysql> CREATE TABLE assets(
     -> );
 
 mysql> CREATE TABLE device_record(
-    -> id INT(0) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    -> id INT(0) AUTO_INCREMENT PRIMARY KEY,
     -> emp_id INT(0) NOT NULL,
     -> device_id INT(0) NOT NULL,
     -> previous_holder_id INT(0) NOT NULL,
@@ -27,7 +27,7 @@ mysql> CREATE TABLE device_record(
 Query OK, 0 rows affected, 4 warnings (0.46 sec)
 
 mysql> CREATE TABLE repair(
-    -> id INT(0) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    -> id INT(0) AUTO_INCREMENT PRIMARY KEY,
     -> cost INT(0) NOT NULL,
     -> warranty DATE,
     -> nature_of_damage ENUM('major','minor')
