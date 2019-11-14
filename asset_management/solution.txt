@@ -1,9 +1,9 @@
-mysql> SELECT e.id,e.name, COUNT(m.emp_id)
+mysql> SELECT emp.id,emp.name, COUNT(records.emp_id)
     -> AS total_allotment
-    -> FROM device_records AS m
-    -> JOIN employees AS e
-    -> ON e.id = m.emp_id
-    -> GROUP BY e.id, e.name
+    -> FROM device_records AS records
+    -> JOIN employees AS emp
+    -> ON emp.id = records.emp_id
+    -> GROUP BY emp.id, emp.name
     -> ORDER BY total_allotment DESC
     -> LIMIT 1;
 +----+------+-----------------+
@@ -14,12 +14,12 @@ mysql> SELECT e.id,e.name, COUNT(m.emp_id)
 1 row in set (0.00 sec)
 
 
-mysql> SELECT e.id,e.name, COUNT(m.emp_id)
+mysql> SELECT emp.id,emp.name, COUNT(records.emp_id)
     -> AS total_allotment
-    -> FROM device_records AS m
-    -> JOIN employees AS e ON e.id = m.emp_id
+    -> FROM device_records AS records
+    -> JOIN employees AS emp ON emp.id = records.emp_id
     -> WHERE assigned_to = '2019-11-01'
-    -> GROUP BY e.id, e.name
+    -> GROUP BY emp.id, emp.name
     -> ORDER BY total_allotment DESC
     -> LIMIT 1;
 +----+------+-----------------+
@@ -30,7 +30,7 @@ mysql> SELECT e.id,e.name, COUNT(m.emp_id)
 1 row in set (0.00 sec)
 
 
-mysql> SELECT e.name, r.assigned_from, r.assigned_to FROM employees AS e JOIN device_records AS r ON e.id = r.emp_id WHERE r.device_id = (SELECT id FROM assets WHERE item = 'Laptop A');
+mysql> SELECT emp.name, records.assigned_from, records.assigned_to FROM employees AS emp JOIN device_records AS records ON emp.id = records.emp_id WHERE records.device_id = (SELECT id FROM assets WHERE item = 'Laptop A');
 +-------+---------------+-------------+
 | name  | assigned_from | assigned_to |
 +-------+---------------+-------------+
@@ -53,7 +53,7 @@ mysql> SELECT * FROM assets WHERE status = 'free';
 
 
 
-mysql> SELECT a.id, a.item FROM assets AS a JOIN device_records AS r ON a.id = r.device_id JOIN employees AS e ON r.emp_id = e.id WHERE e.name = 'Bob' AND r.assigned_to = '2019-11-1';
+mysql> SELECT assets.id, assets.item FROM assets JOIN device_records AS records ON assets.id = records.device_id JOIN employees AS emp ON records.emp_id = emp.id WHERE emp.name = 'Bob' AND records.assigned_to = '2019-11-1';
 +----+----------+
 | id | item     |
 +----+----------+
