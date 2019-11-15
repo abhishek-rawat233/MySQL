@@ -64,7 +64,7 @@ mysql> SELECT assets.id, assets.item FROM assets JOIN device_records AS records 
 2 rows in set (0.00 sec)
 
 
-mysql> SELECT * FROM assets WHERE CURDATE() > date_of_purchase + warranty;
+mysql> SELECT * FROM assets WHERE CURDATE() > DATE_ADD(date_of_purchase, INTERVAL warranty YEAR);
 +----+-------------+------+-------+--------+-------+----------+----------------+----------+--------------+------------------+
 | id | item        | year | model | make   | price | warranty | allotment_type | status   | location     | date_of_purchase |
 +----+-------------+------+-------+--------+-------+----------+----------------+----------+--------------+------------------+
@@ -79,6 +79,7 @@ mysql> SELECT * FROM assets WHERE CURDATE() > date_of_purchase + warranty;
 | 10 | Printer A   | 2011 | xyz   | canon  | 90000 |        1 | public         | free     | meeting room | 2011-08-15       |
 +----+-------------+------+-------+--------+-------+----------+----------------+----------+--------------+------------------+
 9 rows in set (0.00 sec)
+
 
 
 mysql> SELECT * FROM employees WHERE id NOT IN (SELECT distinct emp_id FROM device_records WHERE assigned_till IS NULL AND emp_id IS NOT NULL);
