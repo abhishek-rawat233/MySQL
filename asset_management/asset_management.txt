@@ -23,7 +23,7 @@ mysql> CREATE TABLE device_record(
     -> device_id INT(0) NOT NULL,
     -> previous_holder_id INT(0) NOT NULL,
     -> assigned_from DATE NOT NULL,
-    -> assigned_to DATE NOT NULL,
+    -> assigned_till DATE NOT NULL,
     -> FOREIGN KEY (device_id) REFERENCES assets(id),
     -> FOREIGN KEY (emp_id) REFERENCES employees(id)
     -> );
@@ -68,12 +68,12 @@ mysql> INSERT INTO assets(item, year, model, make, price, warranty, allotment_ty
  ('Printer A', 2011, 'xyz', 'canon', 90000, 1, public', 'free', 'meeting room', '2011-08-15');
 
  --device_records insertion--
- mysql> INSERT INTO device_records(emp_id, device_id, assigned_from, assigned_to)
+ mysql> INSERT INTO device_records(emp_id, device_id, assigned_from, assigned_till)
    VALUES(1  2, '2011-01-01', '2011-12-31'),
     (2,  3, '2011-01-01', '2011-12-31'),
-    (1,  6, '2011-04-01', '2019-11-01'),
-    (2,  7, '2011-01-01', '2019-11-01'),
-    (NULL,  8, '2011-08-15', '2019-11-01'),
-    (NULL, 10, '2011-08-15', '2019-11-01'),
-    (NULL,  9, '2011-09-10', '2019-11-01'),
-    (2,  2, '2012-01-01', '2019-11-01'),
+    (1,  6, '2011-04-01', NULL),
+    (2,  7, '2011-01-01', NULL),
+    (NULL,  8, '2011-08-15', NULL),
+    (NULL, 10, '2011-08-15', NULL),
+    (NULL,  9, '2011-09-10', NULL),
+    (2,  2, '2012-01-01', NULL),

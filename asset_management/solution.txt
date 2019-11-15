@@ -18,7 +18,7 @@ mysql> SELECT emp.id,emp.name, COUNT(records.emp_id)
     -> AS total_allotment
     -> FROM device_records AS records
     -> JOIN employees AS emp ON emp.id = records.emp_id
-    -> WHERE assigned_to = '2019-11-01'
+    -> WHERE assigned_till IS NULL
     -> GROUP BY emp.id, emp.name
     -> ORDER BY total_allotment DESC
     -> LIMIT 1;
@@ -30,14 +30,15 @@ mysql> SELECT emp.id,emp.name, COUNT(records.emp_id)
 1 row in set (0.00 sec)
 
 
-mysql> SELECT emp.name, records.assigned_from, records.assigned_to FROM employees AS emp JOIN device_records AS records ON emp.id = records.emp_id WHERE records.device_id = (SELECT id FROM assets WHERE item = 'Laptop A');
-+-------+---------------+-------------+
-| name  | assigned_from | assigned_to |
-+-------+---------------+-------------+
-| Alice | 2011-01-01    | 2011-12-31  |
-| Bob   | 2012-01-01    | 2019-11-01  |
-+-------+---------------+-------------+
-2 rows in set (0.00 sec)
+mysql> SELECT emp.name, records.assigned_from, records.assigned_till FROM employees AS emp JOIN device_records AS records ON emp.id = records.emp_id WHERE records.device_id IN (SELECT id FROM assets WHERE item LIKE 'Laptop%');
++-------+---------------+---------------+
+| name  | assigned_from | assigned_till |
++-------+---------------+---------------+
+| Alice | 2011-01-01    | 2011-12-31    |
+| Bob   | 2012-01-01    | NULL          |
+| Bob   | 2011-01-01    | 2011-12-31    |
++-------+---------------+---------------+
+3 rows in set (0.00 sec)
 
 
 mysql> SELECT * FROM assets WHERE status = 'free';
@@ -53,7 +54,7 @@ mysql> SELECT * FROM assets WHERE status = 'free';
 
 
 
-mysql> SELECT assets.id, assets.item FROM assets JOIN device_records AS records ON assets.id = records.device_id JOIN employees AS emp ON records.emp_id = emp.id WHERE emp.name = 'Bob' AND records.assigned_to = '2019-11-1';
+mysql> SELECT assets.id, assets.item FROM assets JOIN device_records AS records ON assets.id = records.device_id JOIN employees AS emp ON records.emp_id = emp.id WHERE emp.name = 'Bob' AND records.assigned_till IS NULL;
 +----+----------+
 | id | item     |
 +----+----------+
@@ -80,7 +81,7 @@ mysql> SELECT * FROM assets WHERE CURDATE() > date_of_purchase + warranty;
 9 rows in set (0.00 sec)
 
 
-mysql> SELECT * FROM employees WHERE id NOT IN (SELECT distinct emp_id FROM device_records WHERE assigned_to = '2019-11-1' AND emp_id IS NOT NULL);
+mysql> SELECT * FROM employees WHERE id NOT IN (SELECT distinct emp_id FROM device_records WHERE assigned_till IS NULL AND emp_id IS NOT NULL);
 +----+-------+
 | id | name  |
 +----+-------+
